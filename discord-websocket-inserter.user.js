@@ -3,7 +3,7 @@
 // @namespace   https://github.com/MarvNC
 // @match       https://discord.com/channels/*
 // @grant       none
-// @version     1.2
+// @version     1.3
 // @author      MarvNC
 // @description Receives text via Websocket and sends it to the Discord channel.
 // @grant       GM_getValue
@@ -12,7 +12,7 @@
 // @grant       GM_unregisterMenuCommand
 // ==/UserScript==
 
-const MS_BETWEEN_MESSAGES = 1200;
+const MS_BETWEEN_MESSAGES = 1050;
 
 let socket = null;
 let port = 6677;
@@ -119,11 +119,16 @@ let queue = [];
 async function queueMessage(message) {
   const now = Date.now();
   queue.push(message);
-  if (now - lastMessageSendTime < 1200) {
+  const timeSinceLastMessage = now - lastMessageSendTime;
+  if (timeSinceLastMessage < MS_BETWEEN_MESSAGES) {
     console.log('Message sent too recently, queueing');
+    if (!message) {
+      return;
+    }
+    const msUntilNextMessage = 1 + MS_BETWEEN_MESSAGES - timeSinceLastMessage;
     setTimeout(() => {
       queueMessage('');
-    }, 1200);
+    }, msUntilNextMessage);
   } else {
     sendMessageQueue();
   }
@@ -137,6 +142,9 @@ async function sendMessageQueue() {
     return;
   }
   const message = queue.join('');
+  if (!message) {
+    return;
+  }
   queue = [];
   const channelId = document.location.pathname.split('/').pop();
   lastMessageSendTime = Date.now();
@@ -165,6 +173,7 @@ async function sendMessageQueue() {
     } else {
       console.error('Error sending message:');
       console.log(await response.text());
+      queue.unshift(message);
     }
   } catch (error) {
     console.error('Error:', error);
