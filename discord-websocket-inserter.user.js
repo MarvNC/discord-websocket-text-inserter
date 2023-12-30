@@ -4,7 +4,7 @@
 // @match       https://discord.com/channels/*
 // @grant       none
 // @version     1.0
-// @author      -
+// @author      MarvNC
 // @description Receives text via Websocket and sends it to the Discord channel.
 // @grant       GM_getValue
 // @grant       GM_setValue
