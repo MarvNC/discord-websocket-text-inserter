@@ -3,7 +3,7 @@
 // @namespace   https://github.com/MarvNC
 // @match       https://discord.com/channels/*
 // @grant       none
-// @version     1.1
+// @version     1.2
 // @author      MarvNC
 // @description Receives text via Websocket and sends it to the Discord channel.
 // @grant       GM_getValue
@@ -11,6 +11,8 @@
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
 // ==/UserScript==
+
+const MS_BETWEEN_MESSAGES = 1200;
 
 let socket = null;
 let port = 6677;
@@ -107,15 +109,38 @@ function getRandomNonce() {
   return Math.floor(Math.random() * 1000000000000000000);
 }
 
+let lastMessageSendTime = 0;
+let queue = [];
+
 /**
  * Sends a message to the current Discord channel
  * @param {string} message
- * @param {any?} channelId
  */
-async function send(message, channelId = null) {
-  if (!channelId) {
-    channelId = document.location.pathname.split('/').pop();
+async function queueMessage(message) {
+  const now = Date.now();
+  queue.push(message);
+  if (now - lastMessageSendTime < 1200) {
+    console.log('Message sent too recently, queueing');
+    setTimeout(() => {
+      queueMessage('');
+    }, 1200);
+  } else {
+    sendMessageQueue();
   }
+}
+
+/**
+ *
+ */
+async function sendMessageQueue() {
+  if (queue.length === 0) {
+    return;
+  }
+  const message = queue.join('');
+  queue = [];
+  const channelId = document.location.pathname.split('/').pop();
+  lastMessageSendTime = Date.now();
+
   const data = {
     content: message,
     tts: false,
@@ -160,7 +185,7 @@ function connect() {
 
   socket.onmessage = (event) => {
     const message = event.data;
-    send(message);
+    queueMessage(message);
   };
 
   socket.onclose = () => {
