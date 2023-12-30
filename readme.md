@@ -8,6 +8,7 @@ This is a simple userscript that allows you to receive text from a websocket and
 - Install [Violentmonkey](https://violentmonkey.github.io/) for your browser.
 - Install the script by **[clicking here](https://github.com/MarvNC/discord-websocket-text-inserter/raw/main/discord-websocket-inserter.user.js)**.
 - Get your Discord token by following [this guide](https://gist.github.com/MarvNC/e601f3603df22f36ebd3102c501116c6).
+- Go to the Discord channel where you want to send the text in your browser.
 - Use the script through the userscript manager's popup menu as shown below.
 
 ![image](https://github.com/MarvNC/discord-websocket-text-inserter/assets/17340496/57d6b9a3-53e3-400d-bc46-224b273dbdfe)
