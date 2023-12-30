@@ -3,7 +3,7 @@
 // @namespace   https://github.com/MarvNC
 // @match       https://discord.com/channels/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      MarvNC
 // @description Receives text via Websocket and sends it to the Discord channel.
 // @grant       GM_getValue
@@ -13,21 +13,69 @@
 // ==/UserScript==
 
 let socket = null;
+let port = 6677;
+
+const tokenCommandID = 'set-token';
+const portCommandID = 'set-port';
 
 (async () => {
   const hasToken = !!getToken();
+  if (!hasToken) {
+    promptToken();
+  }
+  port = getPort();
   // @ts-ignore
   GM_registerMenuCommand(
     `Set Token ${hasToken ? '(Currently Set)' : ''}`,
     () => {
       promptToken();
+    },
+    {
+      id: tokenCommandID,
     }
   );
+  registerPortCommand();
   // @ts-ignore
   GM_registerMenuCommand('Connect', () => {
     connect();
   });
 })();
+
+function registerPortCommand() {
+  // @ts-ignore
+  GM_registerMenuCommand(`Set Port (Currently ${port})`, () => {
+    promptPort();
+  });
+}
+
+/**
+ * @returns {number} The port to connect to
+ */
+function promptPort() {
+  const port = prompt('Please enter the port to connect to:', '6677');
+  if (!port) {
+    alert('No port entered!');
+    throw new Error('No port entered!');
+  }
+  // Parse the port to make sure it's a number
+  const parsedPort = parseInt(port);
+  if (isNaN(parsedPort)) {
+    alert('Port must be a number!');
+    throw new Error('Port must be a number!');
+  }
+  // @ts-ignore
+  GM_setValue('port', parsedPort);
+
+  return parsedPort;
+}
+
+/**
+ * @returns {number} The port to connect to
+ */
+function getPort() {
+  // @ts-ignore
+  return GM_getValue('port', port);
+}
 
 /**
  * @returns {string} The user's Discord token
@@ -103,7 +151,7 @@ let connected;
  * Connects to the websocket
  */
 function connect() {
-  socket = new WebSocket('ws://127.0.0.1:6677');
+  socket = new WebSocket(`ws://127.0.0.1:${port}`);
 
   socket.onopen = () => {
     alert('Connected');
