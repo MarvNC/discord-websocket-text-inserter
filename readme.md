@@ -15,3 +15,8 @@ This is a simple userscript that allows you to receive text from a websocket and
 
 > [!WARNING]
 > This interacts with the Discord API and could be considered selfbotting. Use an alt account if this concerns you.
+
+## Notes
+
+- There is a ratelimit built in to lessen the likelihood of hitting the Discord message ratelimit. Because of this, you may notice a delay between the text being sent to the websocket and it appearing in Discord.
+- Due to the content security policy, there is no way to use a websocket that is not on `127.0.0.1`.
