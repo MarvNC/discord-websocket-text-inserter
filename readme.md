@@ -20,3 +20,4 @@ This is a simple userscript that allows you to receive text from a websocket and
 
 - There is a ratelimit built in to lessen the likelihood of hitting the Discord message ratelimit. Because of this, you may notice a delay between the text being sent to the websocket and it appearing in Discord.
 - Due to the content security policy, there is no way to use a websocket that is not on `127.0.0.1`.
+- The recommended websocket extensions use the port `6677` by default, but if your websocket is on a different port, you can change it through the menu.
