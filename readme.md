@@ -14,7 +14,7 @@ This is a simple userscript that allows you to receive text from a websocket and
 ![image](https://github.com/MarvNC/discord-websocket-text-inserter/assets/17340496/57d6b9a3-53e3-400d-bc46-224b273dbdfe)
 
 > [!WARNING]
-> This interacts with the Discord API and could be considered selfbotting. Use an alt account if this concerns you.
+> This interacts with the Discord API and could be considered as usage of a third party client/selfbotting. Use an alt account if this concerns you.
 
 ## Notes
 
