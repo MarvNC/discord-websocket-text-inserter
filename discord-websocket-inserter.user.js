@@ -3,9 +3,10 @@
 // @namespace   https://github.com/MarvNC
 // @match       https://discord.com/channels/*
 // @grant       none
-// @version     1.3
+// @version     1.31
 // @author      MarvNC
 // @description Receives text via Websocket and sends it to the Discord channel.
+// @homepageURL https://github.com/MarvNC/discord-websocket-text-inserter
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_registerMenuCommand
