@@ -1,6 +1,6 @@
 # Discord Websocket Text Inserter
 
-This is a simple userscript that allows you to receive text from a websocket and send it to the current Discord channel.
+This is a simple userscript that allows you to receive text from a websocket and send it to the current Discord channel. This is useful for group reading VNs or watching anime with friends where everyone can look up the words in real time by using [Yomitan](https://github.com/themoeway/yomitan) through a browser.
 
 ## Usage
 
