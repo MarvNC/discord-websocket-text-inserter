@@ -3,7 +3,7 @@
 // @namespace   https://github.com/MarvNC
 // @match       https://discord.com/channels/*
 // @grant       none
-// @version     1.32
+// @version     1.33
 // @author      MarvNC
 // @description Receives text via Websocket and sends it to the Discord channel.
 // @homepageURL https://github.com/MarvNC/discord-websocket-text-inserter
@@ -198,7 +198,7 @@ function connect() {
     // Check if message can be parsed as JSON
     try {
       const parsed = JSON.parse(message);
-      if (parsed.type === 'message') {
+      if (typeof parsed === 'object' && parsed.sentence) {
         message = parsed.sentence;
       }
     } catch (error) {}
